@@ -23,7 +23,8 @@ setup(
     platforms='any',
     install_requires=[
         'typed-ast',
-        'sh'
+        'sh',
+        'parso'
     ],
     extras_require={
         'dev': [
