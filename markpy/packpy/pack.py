@@ -1,5 +1,6 @@
 import os
 from markpy.packpy.pymodule import PythonModule
+from loguru import logger
 
 class PythonPackage(object):
     def __init__(self, package_path, parent=None):
@@ -36,7 +37,6 @@ class PythonPackage(object):
                     module = PythonModule.load(entry.path, parent=self.name)
                     if module:
                         self.modules.append(module)
-                print(entry.name)
 
     def pack(self):
         pass
