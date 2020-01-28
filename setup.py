@@ -24,7 +24,9 @@ setup(
     install_requires=[
         'typed-ast',
         'sh',
-        'parso'
+        'parso',
+        'click',
+        'loguru'
     ],
     extras_require={
         'dev': [
@@ -45,6 +47,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        markpy=markpy.compiler.command:main
+            markpy=markpy.main:markpy
     '''
 )
