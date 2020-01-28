@@ -3,6 +3,18 @@ import parso
 import os
 from loguru import logger
 
+class PythonImportFrom(object):
+    def __init__(self, import_from):
+        self.import_from = import_from
+        self.children = import_from.children
+
+
+class PythonImportName(object):
+    def __init__(self, import_name):
+        self.import_name = import_name
+        self.children = import_name.children
+
+
 class PythonModule(object):
     def __init__(self, name, module, parent):
         self.name = name
@@ -21,7 +33,13 @@ class PythonModule(object):
             return
         logger.debug(imports)
         for imp in imports:
-            logger.debug(type(imp))
+            if isinstance(imp, parso.python.tree.ImportFrom):
+                pyimport = PythonImportFrom(imp)
+            elif isinstance(imp, parso.python.tree.ImportName):
+                pyimport = PythonImportName(imp)
+            else:
+                raise Exception('New import type [{}] not handled. '.format(type(imp)))
+            self.imports.append(pyimport)
 
     @classmethod
     def load(cls, file_path, parent=None):
