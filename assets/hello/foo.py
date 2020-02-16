@@ -1,7 +1,10 @@
 
 import foo2
 import re
-import os
+import os.path
+import os.path as opath
+import os as yaos
+
 from bar.module1 import BarClass as BBCLASS
 from bar.module1 import BarClass, FooClass as BARCLASS, FOOCLASS
 from bar.module1 import BarClass, FooClass

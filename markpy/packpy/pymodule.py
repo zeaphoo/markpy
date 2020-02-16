@@ -4,8 +4,9 @@ import os
 from loguru import logger
 from collections import namedtuple
 
-AbsoluteImport = namedtuple('AbsoluteImport', ['module', 'imported', 'alias'])
-RelativeImport = namedtuple('RelativeImport', ['relative', 'module', 'imported', 'alias'])
+AbsolutePyImportFrom = namedtuple('AbsolutePyImportFrom', ['module', 'imported', 'alias'])
+RelativePyImportFrom = namedtuple('RelativePyImportFrom', ['relative', 'module', 'imported', 'alias'])
+PyImportName = namedtuple('PyImportName', ['module', 'alias'])
 
 class PythonImportFrom(object):
     def __init__(self, import_from):
@@ -28,13 +29,13 @@ class PythonImportFrom(object):
         imported = self._finalize_imported(import_nodes[0])
         for imp in imported:
             if relative == None:
-                pyimport = AbsoluteImport(module=module_name,
+                pyimport = AbsolutePyImportFrom(module=module_name,
                     imported=imp[0], alias=imp[1])
             else:
-                pyimport = RelativeImport(relative=relative, module=module_name,
+                pyimport = RelativePyImportFrom(relative=relative, module=module_name,
                     imported=imp[0], alias=imp[1])
             self.imports.append(pyimport)
-        print(self.imports)
+        logger.debug(self.imports)
 
     def _finalize_from_module(self, module_nodes):
         relative = None
@@ -61,7 +62,7 @@ class PythonImportFrom(object):
                 if node.value != ".":
                     name.append(node.value)
         elif module_node.type == 'name':
-            name = [str(module_node)]
+            name = [str(module_node.value)]
 
         return (relative, name)
 
@@ -96,8 +97,37 @@ class PythonImportFrom(object):
 
 class PythonImportName(object):
     def __init__(self, import_name):
-        self.import_name = import_name
-        self.children = import_name.children
+        self.imports = []
+        self.finalize(import_name)
+
+    def finalize(self, import_name):
+        children = import_name.children
+        assert children[0].type == 'keyword' and children[0].value == 'import'
+        module_node = children[1]
+        alias = None
+        if module_node.type == 'dotted_as_name':
+            real_module_node = module_node.children[0]
+            if real_module_node.type == 'dotted_name':
+                name = self._finalize_dotted_name(real_module_node)
+            elif real_module_node.type == 'name':
+                name = [str(real_module_node.value)]
+            alias = module_node.children[2].value
+        elif module_node.type == 'dotted_name':
+            name = self._finalize_dotted_name(module_node)
+        elif module_node.type == 'name':
+            name = [str(module_node.value)]
+
+        pyimport = PyImportName(module=name, alias=alias)
+        self.imports.append(pyimport)
+
+    def _finalize_dotted_name(self, module_node):
+        name = []
+        assert module_node.type == 'dotted_name'
+        for node in module_node.children:
+            if node.value != ".":
+                name.append(node.value)
+        return name
+
 
 
 class PythonModule(object):
