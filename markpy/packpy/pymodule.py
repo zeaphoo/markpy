@@ -164,6 +164,7 @@ class PythonModule(object):
 
         with open(fpath, 'rb') as f:
             module = parso.parse(f.read())
+            logger.debug(module.children)
             pymodule = cls(name, module, parent)
             logger.info('create module {}'.format(pymodule))
             return pymodule

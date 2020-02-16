@@ -20,6 +20,8 @@ class submod3_meta(type):
         super(submod3_meta, cls).__init__(name, bases, attrs)
         foofoo2 = get_module("submod1.subsubmod1").foofoo
         cls.foofoo2 = foofoo2
+        print(globals())
+        print(locals())
         class foo:
             print('submod3 inner foofoo2', foofoo2)
             pass
@@ -41,6 +43,8 @@ class submod1(ModuleType):
         super(submod1, self).__init__(name)
         foofoo2 = get_module("submod1.subsubmod1").foofoo
         self.foofoo2 = foofoo2
+        print(globals())
+        print(locals())
         class foo:
             print('inner foofoo2', foofoo2)
             pass
