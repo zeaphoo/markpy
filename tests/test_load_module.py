@@ -1,4 +1,4 @@
-from markpy.pymodule import PythonModule
+from markpy.packpy.pymodule import PythonModule
 
 def test_load_module():
-    m = PythonModule.load('foo', "assets/hello/foo.py")
+    m = PythonModule.load("assets/hello/foo.py")
