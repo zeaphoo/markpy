@@ -1,4 +1,4 @@
-from markpy.packpy.pymodule import PythonModule
+from markpy.compiler.tree import PythonModule
 
 def test_load_module():
     m = PythonModule.load("assets/hello/foo.py")

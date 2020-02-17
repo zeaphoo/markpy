@@ -1,5 +1,5 @@
 import os
-from markpy.packpy.pymodule import PythonModule
+from .pymodule import PythonModule
 from loguru import logger
 
 class PythonPackage(object):
@@ -11,7 +11,7 @@ class PythonPackage(object):
         self.packages = []
         self.main_module = None
         self.load()
-    
+
     @property
     def valid(self):
         return self.main_module != None
@@ -20,7 +20,7 @@ class PythonPackage(object):
         module_path = os.path.join(self.package_path, '__init__.py')
         if os.path.exists(module_path):
             self.main_module = PythonModule.load(module_path, parent=self.name)
-        
+
         with os.scandir(self.package_path) as it:
             for entry in it:
                 if entry.name in ['__init__.py']:
@@ -32,7 +32,7 @@ class PythonPackage(object):
                             self.packages.append(subpackage)
                     except:
                         raise
-                
+
                 if entry.is_file() and entry.name.endswith('.py'):
                     module = PythonModule.load(entry.path, parent=self.name)
                     if module:

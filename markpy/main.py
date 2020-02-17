@@ -14,7 +14,7 @@ def markpy():
 @markpy.command()
 @click.argument('package_path')
 def pack(package_path):
-    from markpy.packpy.pack import PythonPackage
+    from markpy.compiler.pack import PythonPackage
     pp = PythonPackage(package_path)
     pp.pack()
 
