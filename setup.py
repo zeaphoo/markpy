@@ -14,7 +14,7 @@ setup(
     url='https://github.com/zeaphoo/markpy/',
     license='MIT',
     author='Wei Zhuo',
-    author_email='zeaphoo@gmail.com',
+    author_email='zeaphoo@qq.com',
     description='A static type compiler for python',
     long_description='A program style using python write static program and a compiler',
     packages=['markpy'],
@@ -34,15 +34,15 @@ setup(
         ],
     },
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
     entry_points='''
