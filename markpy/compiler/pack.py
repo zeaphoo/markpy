@@ -1,5 +1,5 @@
 import os
-from .pymodule import PythonModule
+from .tree import PythonModule
 from loguru import logger
 
 class PythonPackage(object):

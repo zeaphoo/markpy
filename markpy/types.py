@@ -36,7 +36,7 @@ class Type(object):
 
 class Boolean(Type):
     def __init__(self, value = False):
-        super(Integer, self).__init__(value)
+        super(Boolean, self).__init__(value)
         self.value = value
 
     def __eq__(self, other):
@@ -50,6 +50,14 @@ boolean = bool_ = Boolean
 class Integer(Type):
     __bits = 32
     __unsigned = False
+
+    @property
+    def signed(self):
+        return not self.__unsigned
+
+    @property
+    def bitwidth(self):
+        return self.__bits
 
     def __init__(self, value = 0):
         super(Integer, self).__init__(value)
@@ -152,7 +160,7 @@ class Float(Type):
     def __lt__(self, other):
         if self.__class__ is not other.__class__:
             return NotImplemented
-        return self.bitwidth < other.bitwidth
+        return self.value < other.value
 
 
 class Float32(Float):
