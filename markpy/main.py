@@ -1,11 +1,10 @@
 
 import click
-from loguru import logger
+from basepy.log import logger
 import sys
 import os
 
-logger.remove()
-logger.add(sys.stdout, colorize=True, format="<green>[{time:YYYY-MM-DD HH:mm:ss}]</green> <level>{message}</level>")
+logger.add('stdout')
 
 @click.group()
 def markpy():

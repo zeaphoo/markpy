@@ -1,7 +1,7 @@
 
 import parso
 import os
-from loguru import logger
+from basepy.log import logger
 from collections import namedtuple
 
 AbsolutePyImportFrom = namedtuple('AbsolutePyImportFrom', ['module', 'imported', 'alias'])

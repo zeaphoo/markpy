@@ -25,7 +25,7 @@ setup(
         'sh',
         'parso',
         'click',
-        'loguru'
+        'basepy'
     ],
     extras_require={
         'dev': [

@@ -48,38 +48,52 @@ class Boolean(Type):
 boolean = bool_ = Boolean
 
 class Integer(Type):
-    __bits = 32
-    __unsigned = False
+    _bits = 32
+    _unsigned = False
 
     @property
     def signed(self):
-        return not self.__unsigned
+        return not self._unsigned
 
     @property
     def bitwidth(self):
-        return self.__bits
+        return self._bits
 
     def __init__(self, value = 0):
+        if value > self.maxval or value < self.minval:
+            raise ValueError("value {} not in valid range [{}, {}]".format(value, self.minval, self.maxval))
         super(Integer, self).__init__(value)
         self.value = value
 
     def __eq__(self, other):
-        if self.__class__ is not other.__class__:
+        if isinstance(other, Integer):
+            other_value = other.value
+        elif isinstance(other, int):
+            other_value = other
+        elif type(self) != type(other):
             return NotImplemented
-        return self.value == other.value
+        return self.value == other_value
 
     def __lt__(self, other):
-        if self.__class__ is not other.__class__:
+        if isinstance(other, Integer):
+            other_value = other.value
+        elif isinstance(other, int):
+            other_value = other
+        elif type(self) != type(other):
             return NotImplemented
-        if self.signed != other.signed:
-            return NotImplemented
-        return self.bitwidth < other.bitwidth
+        return self.value < other_value
 
     def __add__(self, other):
-        return Integer(self.value + other)
+        if isinstance(other, int):
+            other_value = other
+        elif isinstance(other, Integer):
+            other_value = other.value
+        else:
+            raise ValueError('only int or Integer can be added.')
+        return Integer(self.value + other_value)
 
     def __str__(self):
-        return "{}".format(self.value)
+        return "<{}:{}>".format(type(self).__name__, self.value)
 
     @property
     def maxval(self):
@@ -102,52 +116,52 @@ class Integer(Type):
             return 0
 
 class Integer8(Integer):
-    __bits = 8
-    __unsigned = False
+    _bits = 8
+    _unsigned = False
 
 class UnsignedInteger8(Integer):
-    __bits = 8
-    __unsigned = True
+    _bits = 8
+    _unsigned = True
 
 int8 = Integer8
 uint8 = UnsignedInteger8
 
 class Integer16(Integer):
-    __bits = 16
-    __unsigned = False
+    _bits = 16
+    _unsigned = False
 
 class UnsignedInteger16(Integer):
-    __bits = 16
-    __unsigned = True
+    _bits = 16
+    _unsigned = True
 
 int16 = Integer16
 uint16 = UnsignedInteger16
 
 class Integer32(Integer):
-    __bits = 32
-    __unsigned = False
+    _bits = 32
+    _unsigned = False
 
 class UnsignedInteger32(Integer):
-    __bits = 32
-    __unsigned = True
+    _bits = 32
+    _unsigned = True
 
 int32 = Integer32
 uint32 = UnsignedInteger32
 
 class Integer64(Integer):
-    __bits = 64
-    __unsigned = False
+    _bits = 64
+    _unsigned = False
 
 class UnsignedInteger64(Integer):
-    __bits = 64
-    __unsigned = True
+    _bits = 64
+    _unsigned = True
 
 int64 = Integer64
 uint64 = UnsignedInteger64
 
 
 class Float(Type):
-    __bits = 32
+    _bits = 32
     def __init__(self, value = 0.0):
         super(Float, self).__init__(value)
         self.value = value
@@ -164,10 +178,10 @@ class Float(Type):
 
 
 class Float32(Float):
-    __bits = 32
+    _bits = 32
 
 class Float64(Float):
-    __bits = 64
+    _bits = 64
 
 float32 = float_ = Float32
 float64 = double_ = Float64

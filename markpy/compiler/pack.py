@@ -1,6 +1,6 @@
 import os
 from .tree import PythonModule
-from loguru import logger
+from basepy.log import logger
 
 class PythonPackage(object):
     def __init__(self, package_path, parent=None):
